@@ -1,68 +1,111 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Neighborhood-Map
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Description](#description)
+- [Installation and Launch](#installation-and-launch)
+- [Used Technologies](#used-technologies)
+- [App Features](#app-features)
+- [Features To Add](#features-to-add)
+- [License](#license)
 
-### `npm start`
+## Description
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This project is the last project of Udacity Front End Nanodegree.
+A [React.js](https://reactjs.org/) SPA (single page application) that allows the user to get information about certain places by clicking the place on the side menu or the place marker.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Installation and Launch
 
-### `npm test`
+### Development mode
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1.  To install the application clone this git repository or download as zip file
 
-### `npm run build`
+```
+$ git clone https://github.com/xMokAx/react-neighborhood-map.git
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2.  Go into the application folder
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```
+$ cd react-neighborhood-map
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3.  Install dependencies using `npm` or `yarn` command line tool
 
-### `npm run eject`
+```
+$ npm install   or    $ yarn install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+4.  Run the application, again using `npm` or `yarn`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+$ npm start    or     $ yarn start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**This will open a new browser tab/window with the application running.**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Production mode
 
-## Learn More
+1.  Generate the production build, again using `npm` or `yarn`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+$ npm run build    or     $ yarn build
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1.  Open the generated build folder and serve it using a local server. The is easiest way to do so is to use
 
-### Code Splitting
+```
+$ yarn global add serve     then   $ serve -s build
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+2.  In production mode you can see the service worker in action.
 
-### Analyzing the Bundle Size
+## Used Technologies
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+1.  [React.js](https://reactjs.org/)
+2.  [Create-React-App](https://github.com/facebook/create-react-app)
+3.  [Google Maps API](https://cloud.google.com/maps-platform/maps/)
+4.  [Foursquare API](https://developer.foursquare.com/places-api)
+5.  [Materialize.css](https://materializecss.com/)
+6.  [Lighthouse](https://github.com/GoogleChrome/lighthouse)
+7.  [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
+8.  [Progressive Web App](https://developers.google.com/web/progressive-web-apps/)
 
-### Making a Progressive Web App
+## App Features
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+1.  When started the app fetch some places(restaurants) from FourSquare API and show them on the side menu and render a marker on google map for each place.
+2.  The user can click any place on side menu or a marker to show more information about that place in a google map infowindow.
+3.  There is an input field in side menu that allows the user to filter available places list which will filter the map markers too.
+4.  The Service Worker allows the app to works offline by caching app assets and dynamically fetched data.
+5.  The app is a PWA (progressive web app) which can be installed to home screen and provide a good experience to users on any internet condition.
 
-### Advanced Configuration
+## Features To Add
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+1.  Allow the app to know the user location and make it the center of the map.
+2.  If the user didn't give the app the permission to know his location give the user the ability to specify the center of the map using google places.
+3.  Allow the user to to search for different categories of places using an input and Foursquare API.
+4.  Improve the PWA experience.
 
-### Deployment
+## License
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+MIT License
 
-### `npm run build` fails to minify
+Copyright (c) 2018 Ahmed Mokhtar Mohammed
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
