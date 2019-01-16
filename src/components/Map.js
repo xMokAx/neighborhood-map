@@ -8,7 +8,6 @@ import {
   Marker
 } from "react-google-maps";
 import { MAP } from "react-google-maps/lib/constants";
-import markerIcon from "../images/marker.png";
 
 import InfoCard from "./InfoCard";
 
