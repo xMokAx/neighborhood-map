@@ -14,7 +14,7 @@ const Header = () => {
           >
             <i className="material-icons">menu</i>
           </button>
-          <a href="/" className="brand-logo waves-effect waves-light">
+          <a href="./" className="brand-logo waves-effect waves-light">
             <img
               src={Logo}
               alt="map app"
