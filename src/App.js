@@ -5,6 +5,7 @@ import classNames from "classnames";
 
 import * as FoursquareAPI from "./utils/FoursquareAPI";
 
+import "../node_modules/materialize-css/dist/css/materialize.min.css";
 import "./App.css";
 
 import Header from "./components/Header";
@@ -35,7 +36,6 @@ export default class App extends Component {
       /* geolocation is available */
       navigator.geolocation.getCurrentPosition(
         pos => {
-          console.log(pos);
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;
           this.setState({
@@ -55,7 +55,6 @@ export default class App extends Component {
       );
     } else {
       /* geolocation IS NOT available */
-      console.log("geolocation IS NOT available");
       this.ipLookUp();
     }
 
@@ -110,25 +109,17 @@ export default class App extends Component {
   };
 
   ipLookUp = () => {
-    fetch("http://ip-api.com/json?fields=lat,lon,status")
+    fetch(
+      "https://api.ipdata.co?api-key=5d859d0c58c9ec4ac7e6ea5293f7d00f6612f8a9c9cd258d4e8d4a49"
+    )
       .then(res => res.json())
       .then(res => {
-        if (res.status === "success") {
-          // if the request is successful set the center to the returned location
-          console.log(res);
-          this.setState({
-            center: {
-              lat: res.lat,
-              lng: res.lon
-            }
-          });
-        } else {
-          // if the ip is (private range, reserved range, invalid query) the status will be fail
-          // set the center to New York
-          this.setState({
-            center: { lat: 40.7127753, lng: -74.0059728 }
-          });
-        }
+        this.setState({
+          center: {
+            lat: res.latitude,
+            lng: res.longitude
+          }
+        });
       })
       .catch(err => {
         // if the request fails set the center to New York
@@ -224,7 +215,6 @@ export default class App extends Component {
           })
           // if the request wasn't made successfully the error is prob because of internet issue
           .catch(err => {
-            console.log(err);
             this.setState({
               placeError:
                 "There was an error fetching place info, please check your internet connection and try again."

@@ -48,7 +48,6 @@ export default class LocationsSearch extends Component {
           searchError: "Oops something went wrong, please try again later."
         });
     }
-    console.log("Google Maps API returned error with status: ", status);
     clearSuggestions();
   };
 

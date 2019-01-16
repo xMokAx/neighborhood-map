@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import M from "../../node_modules/materialize-css/dist/js/materialize.min.js";
 
 import Place from "./Place";
 import Loading from "./Loading";
@@ -28,14 +29,13 @@ export default class SideMenu extends Component {
 
   componentDidMount() {
     const elem = document.querySelector(".sidenav");
-    this.sideNavInstance = window.M.Sidenav.init(elem);
+    this.sideNavInstance = M.Sidenav.init(elem);
   }
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     const { center, searchQuery, fetchPlaces } = this.props;
     if (center !== prevProps.center) {
-      console.log("center changed");
       fetchPlaces(`${center.lat},${center.lng}`, searchQuery);
     }
   }
