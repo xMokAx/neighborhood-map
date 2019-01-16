@@ -1,7 +1,8 @@
 {
-  "name": "neighborhood-map",
+  "name": "map-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://xmokax.github.io/map-app",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^16.7.0",
@@ -14,6 +15,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
