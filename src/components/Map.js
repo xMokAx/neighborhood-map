@@ -84,7 +84,6 @@ class Map extends Component {
             }
             return (
               <Marker
-                icon={markerIcon}
                 key={id}
                 position={position}
                 animation={animation}
