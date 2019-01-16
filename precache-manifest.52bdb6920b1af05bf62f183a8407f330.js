@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/map-app/static/css/1.b645bb8a.chunk.css"
   },
   {
-    "revision": "66cc25882b2e9322dcf7435b3cbbfdbf",
+    "revision": "ba57653e4f1985c9ee36a1d9f85c4a7d",
     "url": "/map-app/index.html"
   }
 ];
