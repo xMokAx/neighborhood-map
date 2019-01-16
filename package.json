@@ -5,6 +5,7 @@
   "homepage": "https://xmokax.github.io/map-app",
   "dependencies": {
     "classnames": "^2.2.6",
+    "gh-pages": "^2.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-google-maps": "^9.4.5",
