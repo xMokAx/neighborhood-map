@@ -1,13 +1,16 @@
-# Neighborhood-Map
+# Map-App
 
 ## Table of Contents
 
-- [Description](#description)
-- [Installation and Launch](#installation-and-launch)
-- [Used Technologies](#used-technologies)
-- [App Features](#app-features)
-- [Features To Add](#features-to-add)
-- [License](#license)
+- [Map-App](#map-app)
+  - [Table of Contents](#table-of-contents)
+  - [Description](#description)
+  - [Installation and Launch](#installation-and-launch)
+    - [Development mode](#development-mode)
+    - [Production mode](#production-mode)
+  - [Used Technologies](#used-technologies)
+  - [App Features](#app-features)
+  - [License](#license)
 
 ## Description
 
@@ -21,13 +24,13 @@ A [React.js](https://reactjs.org/) SPA (single page application) that allows the
 1.  To install the application clone this git repository or download as zip file
 
 ```
-$ git clone https://github.com/xMokAx/react-neighborhood-map.git
+$ git clone https://github.com/xMokAx/mapp-app.git
 ```
 
 2.  Go into the application folder
 
 ```
-$ cd react-neighborhood-map
+$ cd map-app
 ```
 
 3.  Install dependencies using `npm` or `yarn` command line tool
@@ -62,29 +65,21 @@ $ yarn global add serve     then   $ serve -s build
 
 ## Used Technologies
 
-1.  [React.js](https://reactjs.org/)
-2.  [Create-React-App](https://github.com/facebook/create-react-app)
-3.  [Google Maps API](https://cloud.google.com/maps-platform/maps/)
-4.  [Foursquare API](https://developer.foursquare.com/places-api)
-5.  [Materialize.css](https://materializecss.com/)
-6.  [Lighthouse](https://github.com/GoogleChrome/lighthouse)
-7.  [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
-8.  [Progressive Web App](https://developers.google.com/web/progressive-web-apps/)
+1. [React.js](https://reactjs.org/)
+2. [Google Maps API](https://cloud.google.com/maps-platform/maps/)
+3. [Foursquare API](https://developer.foursquare.com/places-api)
+4. [Materialize.css](https://materializecss.com/)
+5. [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
+6. [Progressive Web App](https://developers.google.com/web/progressive-web-apps/)
 
 ## App Features
 
-1.  When started the app fetch some places(restaurants) from FourSquare API and show them on the side menu and render a marker on google map for each place.
-2.  The user can click any place on side menu or a marker to show more information about that place in a google map infowindow.
-3.  There is an input field in side menu that allows the user to filter available places list which will filter the map markers too.
-4.  The Service Worker allows the app to works offline by caching app assets and dynamically fetched data.
-5.  The app is a PWA (progressive web app) which can be installed to home screen and provide a good experience to users on any internet condition.
-
-## Features To Add
-
-1.  Allow the app to know the user location and make it the center of the map.
-2.  If the user didn't give the app the permission to know his location give the user the ability to specify the center of the map using google places.
-3.  Allow the user to to search for different categories of places using an input and Foursquare API.
-4.  Improve the PWA experience.
+1. When the app starts it will ask for the user location to make it the center of the map and search for places(default is restaurants) around it if the user block the app from getting the location, it will get the location using user's ip if this failed it will use New York as the default location.
+2. The user has the ability to change location using to any city, town or neighborhood using the google maps places api.
+3. The user can search for any places instead of restaurants.
+4. The user can can filter the places list and the markers on the map will be filtered as well.
+5. The Service Worker allows the app to works offline by caching app assets.
+6. The app is a PWA (progressive web app) which can be installed to home screen and provide a good experience to users on any internet condition.
 
 ## License
 

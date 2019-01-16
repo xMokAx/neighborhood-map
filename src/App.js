@@ -16,7 +16,7 @@ import LocationsSearch from "./components/LocationsSearch";
 export default class App extends Component {
   state = {
     places: [],
-    searchQuery: "google",
+    searchQuery: "restaurant",
     filterQuery: "",
     infoWindowPos: null,
     selectedPlace: null,
