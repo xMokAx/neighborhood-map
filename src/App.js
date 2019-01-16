@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
+import classNames from "classnames";
 
 import * as FoursquareAPI from "./utils/FoursquareAPI";
 
@@ -10,11 +11,13 @@ import Header from "./components/Header";
 import Map from "./components/Map";
 import Loading from "./components/Loading";
 import SideMenu from "./components/SideMenu";
+import LocationsSearch from "./components/LocationsSearch";
 
 export default class App extends Component {
   state = {
     places: [],
-    query: "",
+    searchQuery: "google",
+    filterQuery: "",
     infoWindowPos: null,
     selectedPlace: null,
     placesError: undefined,
@@ -94,6 +97,18 @@ export default class App extends Component {
     });
   }
 
+  onCenterChange = center => {
+    this.setState({
+      center
+    });
+  };
+
+  onSearchQueryChange = searchQuery => {
+    this.setState({
+      searchQuery: searchQuery
+    });
+  };
+
   ipLookUp = () => {
     fetch("http://ip-api.com/json?fields=lat,lon,status")
       .then(res => res.json())
@@ -123,20 +138,35 @@ export default class App extends Component {
       });
   };
 
-  fetchPlaces = (latLong, category = "restaurant") => {
+  fetchPlaces = (latLong, searchQuery = this.state.searchQuery) => {
+    searchQuery = searchQuery ? searchQuery : "google";
+    const escapedSearchQuery = new RegExp(
+      escapeRegExp(searchQuery.trim()),
+      "i"
+    );
     // fetch the places from foursquare api
-    FoursquareAPI.getPlaces(category, latLong)
+    this.setState({
+      isPlacesLoading: true
+    });
+    FoursquareAPI.getPlaces(escapedSearchQuery, latLong)
       .then(res => {
         // if response code wasn't 200 set the placesError to equal error detail
         if (res.meta.code !== 200) {
           this.setState({
-            placesError: "Oops something went wrong, please try again later"
+            placesError: "Oops something went wrong, please try again later."
           });
           // if response code is 200 set the places to be venues
         } else {
-          this.setState({
-            places: res.response.venues
-          });
+          if (res.response.venues.length === 0) {
+            this.setState({
+              placesError: "No places found nearby this location."
+            });
+          } else {
+            this.setState({
+              places: res.response.venues,
+              placesError: ""
+            });
+          }
         }
       })
       // set the isPlacesLoading to false to remove the preloader
@@ -149,11 +179,7 @@ export default class App extends Component {
       .catch(err => {
         this.setState({
           placesError:
-            "There was an error fetching places info, please check your internet connection and refresh the page."
-        });
-      })
-      .then(() => {
-        this.setState({
+            "There was an error fetching places info, please check your internet connection and try again.",
           isPlacesLoading: false
         });
       });
@@ -233,17 +259,10 @@ export default class App extends Component {
     });
   };
 
-  // update the query depending on the value received from the filter input
-  updateQuery = query => {
+  // update the filterQuery
+  onFilterQueryChange = filterQuery => {
     this.setState({
-      query: query.trim()
-    });
-  };
-
-  // clear the query by setting it to be an empty string
-  clearQuery = () => {
-    this.setState({
-      query: ""
+      filterQuery: filterQuery
     });
   };
 
@@ -251,7 +270,8 @@ export default class App extends Component {
     const {
       places,
       infoWindowPos,
-      query,
+      filterQuery,
+      searchQuery,
       selectedPlace,
       placesError,
       placeError,
@@ -262,29 +282,29 @@ export default class App extends Component {
       center
     } = this.state;
     const {
-      updateQuery,
-      clearQuery,
+      onFilterQueryChange,
       onShowInfoWindow,
       onHideInfoWindow,
-      fetchPlaces
+      fetchPlaces,
+      onCenterChange,
+      onSearchQueryChange
     } = this;
 
-    // if there is a query make the showingPlaces equal to the places that match that query.
+    // if there is a filterQuery make the showingPlaces equal to the places that match that filterQuery.
     let showingPlaces;
-    if (query) {
+    if (filterQuery) {
       // The RegExp constructor creates a regular expression object for matching text with a pattern.
       // escapeRegExp is used to escape RegExp special characters
-      const match = new RegExp(escapeRegExp(query), "i");
+      const match = new RegExp(escapeRegExp(filterQuery.trim()), "i");
       // The test() method executes a search for a match between a regular expression and a specified string(place.name). Returns true or false.
       showingPlaces = places.filter(place => match.test(place.name));
-      // if there is no query the showingPlaces is equal to places.
+      // if there is no filterQuery the showingPlaces is equal to places.
     } else {
       showingPlaces = places;
     }
 
     // sort the showingPlaces depending on the name property of each place.
     showingPlaces.sort(sortBy("name"));
-
     return (
       // React.Fragment let you group a list of children without adding extra nodes (like a div) to the DOM.
       <React.Fragment>
@@ -292,16 +312,20 @@ export default class App extends Component {
         <main className="main-content">
           {showConnectionStatus && (
             <p
-              className="offline-message"
-              style={{ backgroundColor: online ? "green" : "red" }}
+              className={classNames(
+                "offline-message darken-2",
+                online ? "green" : "red"
+              )}
             >
               {online ? "Back Online" : "No Internet Connection"}
             </p>
           )}
+
+          <LocationsSearch onCenterChange={onCenterChange} />
+
           <Map
             center={center}
             places={showingPlaces}
-            fetchPlaces={fetchPlaces}
             onShowInfoWindow={onShowInfoWindow}
             onHideInfoWindow={onHideInfoWindow}
             infoWindowPos={infoWindowPos}
@@ -309,27 +333,29 @@ export default class App extends Component {
             placeError={placeError}
             markerAnimation={markerAnimation}
             /* required props for the withScriptjs HOC */
-            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCvPm_fBlek4mSSCFbeg1-E3wNhWtKI5lc&libraries=places"
-            loadingElement={<Loading />}
+            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCvPm_fBlek4mSSCFbeg1-E3wNhWtKI5lc&libraries=places&callback=initMap"
+            loadingElement={<Loading className="loader" />}
             /* required props for the withGoogleMap HOC */
-            containerElement={<div style={{ height: `100%` }} />}
+            containerElement={<div className="map-container" />}
             mapElement={
               <div
                 tabIndex="0"
                 role="application"
                 aria-label="Map"
-                style={{ height: `100%` }}
+                className="map"
               />
             }
           />
         </main>
 
         <SideMenu
+          onSearchQueryChange={onSearchQueryChange}
+          center={center}
           places={showingPlaces}
           onShowInfoWindow={onShowInfoWindow}
-          query={query}
-          updateQuery={updateQuery}
-          clearQuery={clearQuery}
+          filterQuery={filterQuery}
+          searchQuery={searchQuery}
+          onFilterQueryChange={onFilterQueryChange}
           placesError={placesError}
           markerAnimation={markerAnimation}
           isPlacesLoading={isPlacesLoading}

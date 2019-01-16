@@ -8,6 +8,7 @@ import {
   Marker
 } from "react-google-maps";
 import { MAP } from "react-google-maps/lib/constants";
+import markerIcon from "../images/marker.png";
 
 import InfoCard from "./InfoCard";
 
@@ -19,6 +20,7 @@ class Map extends Component {
     onShowInfoWindow: PropTypes.func.isRequired,
     onHideInfoWindow: PropTypes.func.isRequired,
     selectedPlace: PropTypes.object,
+    placeError: PropTypes.string,
     infoWindowPos: PropTypes.object,
     error: PropTypes.string,
     markerAnimation: PropTypes.number
@@ -40,17 +42,8 @@ class Map extends Component {
 
   fixMyPageOnce = () => {
     // add title to the iframe for accessibility
-    document.querySelector("iframe").title = "New York City Map";
+    document.querySelector("iframe").title = "Map";
   };
-
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    const { center, fetchPlaces } = this.props;
-    if (center !== prevProps.center) {
-      console.log("center changed")
-      fetchPlaces(`${center.lat},${center.lng}`);
-    }
-  }
 
   render() {
     const {
@@ -91,6 +84,7 @@ class Map extends Component {
             }
             return (
               <Marker
+                icon={markerIcon}
                 key={id}
                 position={position}
                 animation={animation}

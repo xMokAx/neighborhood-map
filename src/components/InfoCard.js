@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const InfoCard = ({ selectedPlace }) => {
   return (
     <div className="info-card">
-      <div className="card">
+      <div className="card teal darken-3">
         {selectedPlace.bestPhoto ? (
           <div className="card-image">
             <img
@@ -18,10 +18,10 @@ const InfoCard = ({ selectedPlace }) => {
             <h2 className="card-title">{selectedPlace.name}</h2>
           </div>
         ) : (
-          <h2 className="card-title">{selectedPlace.name}</h2>
+          <h2 className="card-title white-text">{selectedPlace.name}</h2>
         )}
 
-        <div className="card-content">
+        <div className="card-content white-text">
           <p>
             <strong>Address:</strong> {selectedPlace.location.formattedAddress}.
           </p>
@@ -40,7 +40,7 @@ const InfoCard = ({ selectedPlace }) => {
           )}
           {selectedPlace.hours && (
             <React.Fragment>
-              <p>Opening hourse:</p>
+              <p>Opening hours:</p>
               {selectedPlace.hours.timeframes.map((timeframe, index) => (
                 <span key={index}>
                   <em>{timeframe.days}</em>:<br />

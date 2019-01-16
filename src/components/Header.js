@@ -1,5 +1,6 @@
 import React from "react";
 import FoursquareImage from "../images/Powered-by-Foursquare-one-color-300.png";
+import Logo from "../images/logo.png";
 
 const Header = () => {
   return (
@@ -8,16 +9,19 @@ const Header = () => {
         <div className="nav-wrapper">
           <button
             data-target="slide-out"
-            className="sidenav-trigger waves-effect waves-light hide-on-large-only btn-flat white-text"
+            className="sidenav-trigger marginless waves-effect waves-light hide-on-large-only btn-flat white-text"
             aria-label="open side menu"
           >
             <i className="material-icons">menu</i>
           </button>
-          <a
-            href="/"
-            className="brand-logo waves-effect waves-light left-align"
-          >
-            Neighborhood Map
+          <a href="/" className="brand-logo waves-effect waves-light">
+            <img
+              src={Logo}
+              alt="map app"
+              className="logo left"
+              style={{ marginRight: "8px" }}
+            />
+            <span>Map App</span>
           </a>
         </div>
       </nav>

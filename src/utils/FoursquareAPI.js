@@ -2,7 +2,7 @@ const api = "https://api.foursquare.com/v2/venues/";
 
 const client_id = "URQL3ITNRY41AW0LQUQ4OD4YHDCZEGJ1XDJJ0RH5KHS51NSE";
 const client_secret = "BIRNVGI5MS4O4HS40R4XMTOJJ5K20J0V4CPE5BZQ50ANZHZY";
-const v = "20180620";
+const v = "20190114";
 const limit = 20;
 
 export const getPlaces = (query, latLong) =>
