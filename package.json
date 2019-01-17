@@ -2,7 +2,7 @@
   "name": "map-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://xmokax.github.io/map-app",
+  "homepage": ".",
   "dependencies": {
     "classnames": "^2.2.6",
     "gh-pages": "^2.0.1",

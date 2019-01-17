@@ -130,7 +130,7 @@ export default class App extends Component {
   };
 
   fetchPlaces = (latLong, searchQuery = this.state.searchQuery) => {
-    searchQuery = searchQuery ? searchQuery : "google";
+    searchQuery = searchQuery ? searchQuery : "restaurant";
     const escapedSearchQuery = new RegExp(
       escapeRegExp(searchQuery.trim()),
       "i"
