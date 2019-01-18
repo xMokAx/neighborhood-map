@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
 import classNames from "classnames";
+import loadScript from "dynamic-script";
 
 import * as FoursquareAPI from "./utils/FoursquareAPI";
 
@@ -28,10 +29,15 @@ export default class App extends Component {
     isPlacesLoading: true,
     showConnectionStatus: false,
     online: undefined,
-    center: undefined
+    center: undefined,
+    mapJsLoading: true,
+    mapJsError: "",
+    hasGoogle: false
   };
 
   componentDidMount() {
+    this.getMapsJsAndShowMap();
+
     if ("geolocation" in navigator) {
       /* geolocation is available */
       navigator.geolocation.getCurrentPosition(
@@ -80,6 +86,14 @@ export default class App extends Component {
 
     // to show the online message when the user is back online
     window.addEventListener("online", e => {
+      if (!this.state.hasGoogle) {
+        this.getMapsJsAndShowMap();
+      }
+      if (!this.state.places.length) {
+        const { center, searchQuery } = this.state;
+        this.fetchPlaces(`${center.lat},${center.lng}`, searchQuery);
+      }
+
       this.setState(
         {
           online: true,
@@ -95,6 +109,32 @@ export default class App extends Component {
       );
     });
   }
+
+  getMapsJsAndShowMap = () => {
+    if (this.state.hasGoogle) {
+      return;
+    }
+    this.setState({
+      mapJsLoading: true,
+      mapJsError: ""
+    });
+    loadScript(
+      "https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCvPm_fBlek4mSSCFbeg1-E3wNhWtKI5lc&libraries=places&callback=initMap"
+    )
+      .then(() => {
+        this.setState({
+          mapJsError: "",
+          mapJsLoading: false,
+          hasGoogle: true
+        });
+      })
+      .catch(() => {
+        this.setState({
+          mapJsError: "Failed to load google maps, try again.",
+          mapJsLoading: false
+        });
+      });
+  };
 
   onCenterChange = center => {
     this.setState({
@@ -269,7 +309,10 @@ export default class App extends Component {
       isPlacesLoading,
       showConnectionStatus,
       online,
-      center
+      center,
+      hasGoogle,
+      mapJsLoading,
+      mapJsError
     } = this.state;
     const {
       onFilterQueryChange,
@@ -277,7 +320,8 @@ export default class App extends Component {
       onHideInfoWindow,
       fetchPlaces,
       onCenterChange,
-      onSearchQueryChange
+      onSearchQueryChange,
+      getMapsJsAndShowMap
     } = this;
 
     // if there is a filterQuery make the showingPlaces equal to the places that match that filterQuery.
@@ -313,29 +357,50 @@ export default class App extends Component {
 
           <LocationsSearch onCenterChange={onCenterChange} />
 
-          <Map
-            center={center}
-            places={showingPlaces}
-            onShowInfoWindow={onShowInfoWindow}
-            onHideInfoWindow={onHideInfoWindow}
-            infoWindowPos={infoWindowPos}
-            selectedPlace={selectedPlace}
-            placeError={placeError}
-            markerAnimation={markerAnimation}
-            /* required props for the withScriptjs HOC */
-            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCvPm_fBlek4mSSCFbeg1-E3wNhWtKI5lc&libraries=places&callback=initMap"
-            loadingElement={<Loading className="loader" />}
-            /* required props for the withGoogleMap HOC */
-            containerElement={<div className="map-container" />}
-            mapElement={
-              <div
-                tabIndex="0"
-                role="application"
-                aria-label="Map"
-                className="map"
-              />
-            }
-          />
+          {mapJsError ? (
+            <div className="error-container">
+              <p className="error-text red-text text-darken-2 row">
+                <i
+                  className="material-icons btn-icon"
+                  style={{ marginRight: "8px" }}
+                >
+                  error
+                </i>
+                <strong>{mapJsError}</strong>
+              </p>
+              <button
+                className="waves-effect waves-light btn-large"
+                onClick={() => {
+                  getMapsJsAndShowMap();
+                }}
+              >
+                <i className="material-icons right">refresh</i>Try Again
+              </button>
+            </div>
+          ) : mapJsLoading ? (
+            <Loading className="loader" />
+          ) : (
+            <Map
+              center={center}
+              places={showingPlaces}
+              onShowInfoWindow={onShowInfoWindow}
+              onHideInfoWindow={onHideInfoWindow}
+              infoWindowPos={infoWindowPos}
+              selectedPlace={selectedPlace}
+              placeError={placeError}
+              markerAnimation={markerAnimation}
+              /* required props for the withGoogleMap HOC */
+              containerElement={<div className="map-container" />}
+              mapElement={
+                <div
+                  tabIndex="0"
+                  role="application"
+                  aria-label="Map"
+                  className="map"
+                />
+              }
+            />
+          )}
         </main>
 
         <SideMenu

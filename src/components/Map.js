@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import {
-  withScriptjs,
   withGoogleMap,
   GoogleMap,
   InfoWindow,
@@ -23,25 +22,6 @@ class Map extends Component {
     infoWindowPos: PropTypes.object,
     error: PropTypes.string,
     markerAnimation: PropTypes.number
-  };
-
-  componentDidMount() {
-    if (this.context[MAP]) {
-      // accessing the google map object using the context API
-      const map = this.context[MAP];
-
-      // add a listener to the map that is called only the first time the map is rendered
-      window.google.maps.event.addListenerOnce(
-        map,
-        "tilesloaded",
-        this.fixMyPageOnce
-      );
-    }
-  }
-
-  fixMyPageOnce = () => {
-    // add title to the iframe for accessibility
-    document.querySelector("iframe").title = "Map";
   };
 
   render() {
@@ -119,4 +99,4 @@ class Map extends Component {
 
 // Pass the Map function to the withGoogleMap HOC to give the map a container element and a map element.
 // Then pass the result to the withScriptjs HOC to load the google maps api and show a loading element while loading.
-export default withScriptjs(withGoogleMap(Map));
+export default withGoogleMap(Map);
