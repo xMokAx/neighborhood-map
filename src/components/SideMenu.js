@@ -160,7 +160,7 @@ export default class SideMenu extends Component {
             <SideMenuError>{placesError}</SideMenuError>
             <button
               className="waves-effect waves-light btn-large"
-              style={{ margin: "20%" }}
+              style={{ margin: "15%", width: "70%" }}
               onClick={() => {
                 fetchPlaces(`${center.lat},${center.lng}`, searchQuery);
               }}
