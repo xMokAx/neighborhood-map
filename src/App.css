@@ -145,6 +145,18 @@ nav,
   }
 }
 
+@media only screen and (min-width: 992px) {
+  .map-container {
+    height: calc(100% - 99.5px);
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .map-container {
+    height: calc(100% - 102px);
+  }
+}
+
 @media only screen and (max-width: 992px) {
   nav .brand-logo {
     transform: none;
